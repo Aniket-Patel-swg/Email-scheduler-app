@@ -3,6 +3,7 @@ import dotenv from "dotenv";
 import { APIRespone } from "./utils/APIReseponse/apiResponse";
 import { CustomError } from "./utils/errorHandling/exceptions";
 import authRoutes from "./routes/auth.routes";
+import emailRoutes from "./routes/email.routes";
 
 dotenv.config();
 
@@ -17,6 +18,7 @@ app.get("/", (req, res) => {
 
 
 app.use("/v1/auth", authRoutes);
+app.use("/v1/emails", emailRoutes);
 
 app.use((err: any, req: any, res: any, next: NextFunction) => {
     console.log('error occured');

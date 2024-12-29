@@ -46,7 +46,9 @@ class AuthService {
                 throw new UnauthorizedError("Invalid password", 401);
             }
 
-            const token = jwt.sign({ userId }, process.env.JWT_SECRET!, { expiresIn: "1h" });
+            const email = userDetails.email;
+
+            const token = jwt.sign({ userId, email }, process.env.JWT_SECRET!, { expiresIn: "1h" });
             return token;
         } catch (error) {
             throw new BadRequestError("Failed to login", 400);
