@@ -21,6 +21,7 @@ const authController = new AuthController();
  *             required:
  *               - email
  *               - password
+ *               - username
  *             properties:
  *               email:
  *                 type: string
@@ -28,6 +29,8 @@ const authController = new AuthController();
  *               password:
  *                 type: string
  *                 format: password
+ *               username:
+ *                 type: string
  *     responses:
  *       201:
  *         description: User successfully created

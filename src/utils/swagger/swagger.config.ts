@@ -10,7 +10,7 @@ const options = {
     },
     servers: [
       {
-        url: 'http://13.126.151.231:3000/v1',
+        url: 'http://13.126.151.231:3000/',
         description: 'Public server',
       },
     ],
