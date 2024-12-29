@@ -1,5 +1,6 @@
 import express, { NextFunction } from "express";
 import dotenv from "dotenv";
+import cors from "cors";
 import { APIRespone } from "./utils/APIReseponse/apiResponse";
 import { CustomError } from "./utils/errorHandling/exceptions";
 import authRoutes from "./routes/auth.routes";
@@ -9,6 +10,7 @@ dotenv.config();
 
 export const app = express();
 
+app.use(cors());
 app.use(express.json());
 
 app.get("/", (req, res) => {
