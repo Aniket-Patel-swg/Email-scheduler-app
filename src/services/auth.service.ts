@@ -9,7 +9,7 @@ dotenv.config();
 class AuthService {
 
 
-    public async signup(username: string, password: string): Promise<boolean> {
+    public async signup(username: string, password: string, email: string): Promise<boolean> {
         try {
 
             const hashedPassword = await bcrypt.hash(password, 10);
@@ -17,6 +17,7 @@ class AuthService {
             const newUser = new user({
                 username,
                 password: hashedPassword,
+                email
             });
 
             await newUser.save();

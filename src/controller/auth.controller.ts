@@ -7,14 +7,14 @@ import { APIRespone } from "../utils/APIReseponse/apiResponse";
 export class AuthController {
     public async signup(req: Request, res: Response, next: any) {
         try {
-            const { username, password } = req.body;
+            const { username, password, email } = req.body;
 
-            if (!username || !password) {
-                throw new BadRequestError("Username and password are required", 400);
+            if (!username || !password || !email) {
+                throw new BadRequestError("Username, password and email are required", 400);
             }
 
             const authService = new AuthService();
-            const result = await authService.signup(username, password);
+            const result = await authService.signup(username, password, email);
             res.send(new APIRespone(200, "User created successfully", result));
         } catch (error) {
             next(error);
