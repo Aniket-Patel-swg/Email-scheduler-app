@@ -21,7 +21,7 @@ app.use("/v1/auth", authRoutes);
 app.use("/v1/emails", emailRoutes);
 
 app.use((err: any, req: any, res: any, next: NextFunction) => {
-    console.log('error occured');
+    console.log('error occured', err);
     if (err instanceof CustomError) {
         return res.status(err.statusCode).json(err.serializeErrors());
     }
