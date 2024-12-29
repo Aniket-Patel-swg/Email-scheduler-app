@@ -1,16 +1,15 @@
-import React, { useState } from 'react';
+import { CalendarIcon, Clock, FileText, Mail } from 'lucide-react';
+import PropTypes from 'prop-types';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { CalendarIcon, Mail, Clock, FileText } from 'lucide-react';
-import AuthContext from '../../context/authContext';
 
-export const EmailSchedulingForm = () => {
+export const EmailSchedulingForm = ({ user, onLogout }) => {
     const [formData, setFormData] = useState({
         subject: '',
         body: '',
         scheduledTime: ''
     });
     const [status, setStatus] = useState({ message: '', isError: false });
-    const { token, logout } = React.useContext(AuthContext);
     const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
@@ -20,7 +19,7 @@ export const EmailSchedulingForm = () => {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`
+                    'Authorization': `Bearer ${user.token}`
                 },
                 body: JSON.stringify(formData)
             });
@@ -31,7 +30,7 @@ export const EmailSchedulingForm = () => {
                 setFormData({ subject: '', body: '', scheduledTime: '' });
             } else {
                 if (response.status === 401) {
-                    logout();
+                    onLogout();
                     navigate('/login');
                 }
                 setStatus({ message: data.message, isError: true });
@@ -118,4 +117,9 @@ export const EmailSchedulingForm = () => {
             </div>
         </div>
     );
+};
+
+EmailSchedulingForm.propTypes = {
+    user: PropTypes.object.isRequired,
+    onLogout: PropTypes.func.isRequired
 };

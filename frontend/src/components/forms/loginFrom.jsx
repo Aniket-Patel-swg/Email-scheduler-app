@@ -1,11 +1,10 @@
-import { useContext, useState } from "react";
+import PropTypes from 'prop-types';
+import { useState } from "react";
 import { useNavigate } from 'react-router-dom';
-import AuthContext from '../../context/authContext';
 
-export const LoginForm = () => {
+export const LoginForm = ({ onLogin }) => {
     const [formData, setFormData] = useState({ username: '', password: '' });
     const [error, setError] = useState('');
-    const { login } = useContext(AuthContext);
     const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
@@ -19,12 +18,13 @@ export const LoginForm = () => {
 
             const data = await response.json();
             if (response.ok) {
-                login(data.data);
+                onLogin(data.data);
                 navigate('/schedule');
             } else {
                 setError(data.message);
             }
         } catch (err) {
+            console.log(err);
             setError('Failed to login. Please try again.');
         }
     };
@@ -84,4 +84,8 @@ export const LoginForm = () => {
             </div>
         </div>
     );
+};
+
+LoginForm.propTypes = {
+    onLogin: PropTypes.func.isRequired
 };

@@ -1,8 +1,9 @@
-import { Navigate, Route, Router, Routes } from 'react-router-dom';
+import PropTypes from 'prop-types';
+import { useState } from 'react';
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import './App.css';
 import { EmailSchedulingForm } from './components/forms/emailForm';
 import { LoginForm } from './components/forms/loginFrom';
-import PropTypes from 'prop-types';
 
 const ProtectedRoute = ({ children }) => {
   const token = localStorage.getItem('token');
@@ -17,21 +18,31 @@ ProtectedRoute.propTypes = {
 };
 
 function App() {
+  const [user, setUser] = useState(null);
+
+  const handleLogin = (userData) => {
+    setUser(userData);
+  };
+
+  const handleLogout = () => {
+    setUser(null);
+    localStorage.removeItem('token');
+  };
 
   return (
     <>
-      <Router>
+      <BrowserRouter>
         <div className="min-h-screen bg-gray-50">
           <Routes>
             {/* Public Routes */}
-            <Route path="/login" element={<LoginForm />} />
+            <Route path="/login" element={<LoginForm onLogin={handleLogin} />} />
 
             {/* Protected Routes */}
             <Route
               path="/schedule"
               element={
                 <ProtectedRoute>
-                  <EmailSchedulingForm />
+                  <EmailSchedulingForm user={user} onLogout={handleLogout} />
                 </ProtectedRoute>
               }
             />
@@ -43,7 +54,7 @@ function App() {
             <Route path="*" element={<Navigate to="/login" replace />} />
           </Routes>
         </div>
-      </Router>
+      </BrowserRouter>
     </>
   )
 }
